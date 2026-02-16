@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { API_BASE } from "../utils/api"
 import PageWrapper from "../layout/PageWrapper"
 import MultiUploadZone from "../components/MultiUploadZone"
 import QuizPlayer from "../components/QuizPlayer"
@@ -34,19 +35,9 @@ function SettingsPanel({ questionCount, setQuestionCount, difficulty, setDifficu
         <label className="setting-label">Број на прашања</label>
         <div className="count-row">
           {[5, 10, 15, 20].map(n => (
-            <button
-              key={n}
-              className={`count-btn ${questionCount === n ? "active" : ""}`}
-              onClick={() => setQuestionCount(n)}
-            >{n}</button>
+            <button key={n} className={`count-btn ${questionCount === n ? "active" : ""}`} onClick={() => setQuestionCount(n)}>{n}</button>
           ))}
-          <input
-            type="number" min="3" max="30"
-            value={questionCount}
-            onChange={e => setQuestionCount(Number(e.target.value))}
-            className="count-input"
-            placeholder="Друго"
-          />
+          <input type="number" min="3" max="30" value={questionCount} onChange={e => setQuestionCount(Number(e.target.value))} className="count-input" placeholder="Друго" />
         </div>
       </div>
 
@@ -54,12 +45,7 @@ function SettingsPanel({ questionCount, setQuestionCount, difficulty, setDifficu
         <label className="setting-label">Тежина</label>
         <div className="difficulty-row">
           {difficulties.map(d => (
-            <button
-              key={d.value}
-              className={`difficulty-btn ${difficulty === d.value ? "active" : ""}`}
-              style={difficulty === d.value ? { borderColor: d.color, color: d.color } : {}}
-              onClick={() => setDifficulty(d.value)}
-            >
+            <button key={d.value} className={`difficulty-btn ${difficulty === d.value ? "active" : ""}`} style={difficulty === d.value ? { borderColor: d.color, color: d.color } : {}} onClick={() => setDifficulty(d.value)}>
               <span className="diff-label">{d.label}</span>
               <span className="diff-desc">{d.desc}</span>
             </button>
@@ -68,9 +54,7 @@ function SettingsPanel({ questionCount, setQuestionCount, difficulty, setDifficu
       </div>
 
       <button className="btn-primary btn-full btn-generate" onClick={onGenerate} disabled={loading}>
-        {loading
-          ? <span className="btn-loader"><span className="spinner" />AI генерира квиз…</span>
-          : "🧠 Генерирај квиз"}
+        {loading ? <span className="btn-loader"><span className="spinner" />AI генерира квиз…</span> : "🧠 Генерирај квиз"}
       </button>
     </div>
   )
@@ -101,9 +85,7 @@ function ErrorBanner({ message, onBack }) {
           <p className="error-banner-msg">{message}</p>
         </div>
       </div>
-      <button className="btn-back" onClick={onBack} style={{ marginTop: "1rem" }}>
-        ← Обиди се повторно
-      </button>
+      <button className="btn-back" onClick={onBack} style={{ marginTop: "1rem" }}>← Обиди се повторно</button>
     </div>
   )
 }
@@ -117,9 +99,7 @@ function SuccessBanner({ quiz, fileCount, onRestart }) {
         <span className="success-icon">✅</span>
         <div>
           <h3 className="success-title">{quiz.title}</h3>
-          <p className="success-meta">
-            {quiz.questions.length} прашања · од {fileCount} {fileCount === 1 ? "документ" : "документи"}
-          </p>
+          <p className="success-meta">{quiz.questions.length} прашања · од {fileCount} {fileCount === 1 ? "документ" : "документи"}</p>
         </div>
         <button className="btn-ghost" onClick={onRestart}>+ Нов квиз</button>
       </div>
@@ -136,7 +116,7 @@ function GenerateQuiz() {
   const [questionCount, setQuestionCount] = useState(10)
   const [difficulty, setDifficulty]   = useState("medium")
   const [genLoading, setGenLoading]   = useState(false)
-  const [genError, setGenError]       = useState(null)   // ← stores real error message
+  const [genError, setGenError]       = useState(null)
 
   const handleExtracted = (combinedText, files, successCount) => {
     setText(combinedText)
@@ -150,7 +130,7 @@ function GenerateQuiz() {
     setGenError(null)
 
     try {
-      const res  = await fetch("http://localhost:3001/api/generate-quiz", {
+      const res = await fetch(`${API_BASE}/api/generate-quiz`, {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
         body:    JSON.stringify({ text, questionCount, difficulty })
@@ -158,52 +138,37 @@ function GenerateQuiz() {
 
       const data = await res.json()
 
-      if (!data.success) {
-        // Show the REAL error from the server
-        throw new Error(data.error || "Неуспешно генерирање")
-      }
+      if (!data.success) throw new Error(data.error || "Неуспешно генерирање")
 
       setQuiz(data.quiz)
       setStep(3)
 
     } catch (err) {
-      // Distinguish network errors from server errors
       const msg = err.message === "Failed to fetch"
-        ? "Не може да се поврзе со серверот. Дали е стартуван backend-от?"
+        ? "Не може да се поврзе со серверот."
         : err.message
-
       setGenError(msg)
-      setStep(1)   // go back to settings so user can retry
-
+      setStep(1)
     } finally {
       setGenLoading(false)
     }
   }
 
   const handleRestart = () => {
-    setText("")
-    setFilesMeta([])
-    setQuiz(null)
-    setGenError(null)
-    setStep(0)
+    setText(""); setFilesMeta([]); setQuiz(null); setGenError(null); setStep(0)
   }
 
   return (
     <PageWrapper>
       <div className="generate-quiz">
-
         <div className="gq-header">
           <h1 className="gq-title">Генерирај квиз</h1>
-          <p className="gq-subtitle">
-            Прикачи еден или повеќе документи и добиј паметен квиз за неколку секунди.
-          </p>
+          <p className="gq-subtitle">Прикачи еден или повеќе документи и добиј паметен квиз за неколку секунди.</p>
         </div>
 
         <StepBar step={step} />
 
         <div className="gq-panel">
-
-          {/* STEP 0 — Upload */}
           {step === 0 && (
             <div className="panel-body">
               <h2 className="panel-title">📄 Прикачи документи</h2>
@@ -212,51 +177,32 @@ function GenerateQuiz() {
             </div>
           )}
 
-          {/* STEP 1 — Settings */}
           {step === 1 && (
             <div className="panel-body">
               <div className="back-row">
                 <button className="btn-back" onClick={() => setStep(0)}>← Назад</button>
-                <span className="text-pill">
-                  ✅ {filesMeta.length} {filesMeta.length === 1 ? "документ" : "документи"} · {text.length.toLocaleString()} карактери
-                </span>
+                <span className="text-pill">✅ {filesMeta.length} {filesMeta.length === 1 ? "документ" : "документи"} · {text.length.toLocaleString()} карактери</span>
               </div>
-
               {filesMeta.length > 0 && (
                 <div className="source-chips">
-                  {filesMeta.map((f, i) => (
-                    <span key={i} className="source-chip">{f.name}</span>
-                  ))}
+                  {filesMeta.map((f, i) => <span key={i} className="source-chip">{f.name}</span>)}
                 </div>
               )}
-
-              {/* ← Show real error here, right above the settings */}
               {genError && <ErrorBanner message={genError} onBack={() => setGenError(null)} />}
-
               <h2 className="panel-title" style={{ marginTop: "1.2rem" }}>⚙️ Постави параметри</h2>
               <p className="panel-desc">Прилагоди го квизот на твојот стил на учење.</p>
-              <SettingsPanel
-                questionCount={questionCount}
-                setQuestionCount={setQuestionCount}
-                difficulty={difficulty}
-                setDifficulty={setDifficulty}
-                onGenerate={handleGenerate}
-                loading={genLoading}
-              />
+              <SettingsPanel questionCount={questionCount} setQuestionCount={setQuestionCount} difficulty={difficulty} setDifficulty={setDifficulty} onGenerate={handleGenerate} loading={genLoading} />
             </div>
           )}
 
-          {/* STEP 2 — Generating */}
           {step === 2 && <GeneratingScreen />}
 
-          {/* STEP 3 — Quiz */}
           {step === 3 && quiz && (
             <div className="panel-body">
               <SuccessBanner quiz={quiz} fileCount={filesMeta.length} onRestart={handleRestart} />
               <QuizPlayer quiz={quiz} />
             </div>
           )}
-
         </div>
       </div>
     </PageWrapper>

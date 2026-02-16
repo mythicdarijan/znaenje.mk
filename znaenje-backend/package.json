@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "start": "node api/index.js",
     "dev": "node api/index.js"
   },
   "dependencies": {
-    "@dotenvx/dotenvx-ops": "^0.30.3",
     "@google-cloud/vision": "^4.3.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
