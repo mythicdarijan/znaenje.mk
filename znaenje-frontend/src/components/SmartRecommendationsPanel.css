@@ -1,0 +1,290 @@
+/* ═══════════════════════════════════════════════════
+   SMART RECOMMENDATIONS PANEL v2
+   ═══════════════════════════════════════════════════ */
+
+.rec-panel {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 22px;
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.rec-panel--empty {
+  padding: 2rem;
+  text-align: center;
+}
+
+.rec-empty-text {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* ── Momentum banner ─────────────────────────────── */
+
+.momentum-banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  border-radius: 14px;
+  border: 1px solid transparent;
+}
+
+.momentum-up      { background: rgba(34,197,94,0.08);   border-color: rgba(34,197,94,0.2);  }
+.momentum-down    { background: rgba(239,68,68,0.08);   border-color: rgba(239,68,68,0.2);  }
+.momentum-neutral { background: rgba(124,124,255,0.08); border-color: rgba(124,124,255,0.2); }
+
+.momentum-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.momentum-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.momentum-msg {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
+  margin: 0;
+}
+
+.momentum-streak {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.45);
+  margin: 0;
+}
+
+/* ── Grid ────────────────────────────────────────── */
+
+.rec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.rec-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.rec-section-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin: 0;
+}
+
+/* ── Topic rows ──────────────────────────────────── */
+
+.topic-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.topic-row-v2 {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.topic-row-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.topic-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 55%;
+}
+
+.topic-row-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.topic-pct {
+  font-size: 0.9rem;
+  font-weight: 800;
+  min-width: 38px;
+  text-align: right;
+}
+
+.topic-bar-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.topic-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.topic-attempts {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.3);
+}
+
+/* ── Trend badge ─────────────────────────────────── */
+
+.trend-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.trend-up     { background: rgba(34,197,94,0.15);   color: #86efac; }
+.trend-down   { background: rgba(239,68,68,0.15);   color: #fca5a5; }
+.trend-stable { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.4); }
+
+/* ── Most-missed cards ───────────────────────────── */
+
+.missed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.missed-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+}
+
+.missed-count {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #fca5a5;
+  background: rgba(239,68,68,0.15);
+  border-radius: 6px;
+  padding: 0.2rem 0.45rem;
+  flex-shrink: 0;
+  line-height: 1.4;
+}
+
+.missed-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.missed-question {
+  font-size: 0.83rem;
+  color: rgba(255,255,255,0.75);
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.missed-topic {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.3);
+}
+
+/* ── CTA card ────────────────────────────────────── */
+
+.rec-cta {
+  background: linear-gradient(135deg, rgba(124,124,255,0.12), rgba(34,211,238,0.08));
+  border: 1px solid rgba(124,124,255,0.25);
+  border-radius: 16px;
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.rec-cta-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.rec-cta-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0;
+}
+
+.rec-cta-topic {
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rec-cta-sub {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.4);
+  margin: 0;
+}
+
+.rec-cta-btn {
+  flex-shrink: 0;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+/* ── Strongest topic ─────────────────────────────── */
+
+.rec-strong {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.4);
+  padding: 0.6rem 0.8rem;
+  background: rgba(250,204,21,0.06);
+  border: 1px solid rgba(250,204,21,0.15);
+  border-radius: 10px;
+}
+
+.rec-strong strong {
+  color: rgba(255,255,255,0.75);
+}
+
+/* ── Responsive ──────────────────────────────────── */
+
+@media (max-width: 700px) {
+  .rec-grid {
+    grid-template-columns: 1fr;
+  }
+}

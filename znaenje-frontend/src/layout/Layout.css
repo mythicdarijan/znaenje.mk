@@ -1,0 +1,44 @@
+/* ══════════════════════════════════════════
+   LAYOUT SHELL
+   ══════════════════════════════════════════ */
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-main, #0b0f1a);
+}
+
+/* app-main takes remaining space next to sidebar.
+   The sidebar animates its own width via framer-motion,
+   so app-main just needs to flex-grow. */
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* prevents flex overflow */
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.app-content {
+  flex: 1;
+  padding: 36px 40px;
+}
+
+/* ── Responsive ──────────────────────────── */
+
+@media (max-width: 768px) {
+  .app-content {
+    padding: 24px 20px;
+  }
+
+  /* On mobile sidebar is fixed overlay, so main takes full width */
+  .app-main {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-content {
+    padding: 20px 16px;
+  }
+}

@@ -1,0 +1,79 @@
+:root {
+  --bg-main: #0b0f1a;
+  --bg-panel: rgba(255,255,255,0.06);
+  --border-glass: rgba(255,255,255,0.15);
+  --accent: #7c7cff;
+  --accent-soft: rgba(124,124,255,0.25);
+
+  --text-main: #ffffff;
+  --text-muted: rgba(255,255,255,0.65);
+
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  --shadow-soft: 0 20px 40px rgba(0,0,0,0.45);
+}
+
+/* GLOBAL RESET */
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background: radial-gradient(
+    circle at top,
+    #12182b,
+    #070b14 70%
+  );
+  color: var(--text-main);
+}
+
+/* GLASS CARDS */
+
+.glass-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-glass);
+  backdrop-filter: blur(14px);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+}
+
+/* BUTTONS */
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), #5b5bff);
+  color: white;
+  border: none;
+  padding: 0.9rem 2.4rem;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 0 0 var(--accent-soft);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 0 10px var(--accent-soft);
+  transform: translateY(-2px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+}
